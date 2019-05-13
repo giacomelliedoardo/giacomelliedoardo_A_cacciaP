@@ -41,7 +41,36 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  inizio();
+  if (vite > 0){
+    compare();
+    game();
+    game();
+    game();
+    game();
+    game();
+  }
+  else {
+    lcd.setCursor(2, 0);
+    lcd.print("...!GAME!...");
+    lcd.setCursor(3, 1);
+    lcd.print("..!OVER!..");
+  }
+}
 
+void inizio() {
+  while(digitalRead(b00) != HIGH){}
+  
+  lcd.setCursor(0, 0);
+  lcd.write(byte(0));
+  lcd.setCursor(1, 0);
+  lcd.print("=");
+  lcd.setCursor(3, 0);
+  lcd.print(vite);
+  lcd.setCursor(8, 0);
+  lcd.print("Match: ");
+  lcd.setCursor(15, 0);
+  lcd.print(punti);
   
 }
 
@@ -52,33 +81,27 @@ void compare() {
     pos = 0;
   }
   else if (rnd == 2) {
-    pos = 3
+    pos = 4;
   }
   else if (rnd == 3) {
-    pos = 7;
+    pos = 8;
   }
   else if (rnd == 4) {
     pos = 11;
   }
   else if (rnd == 5) {
-    pos = 16;
+    pos = 15;
   }
   delay(1000);
   lcd.setCursor(pos, 1);
   lcd.write(byte(1));
 }
 
-void inizio() {
-  while(digitalRead(b00) != HIGH){}
-  
-  lcd.setCursor(0, 0);
-  lcd.write(byte(0));
-  lcd.setCursor(2, 0);
-  lcd.print("=");
-  lcd.setCursor(4, 0);
-  lcd.print(vite);
-  lcd.setCursor(8, 0);
-  lcd.print("Match : ");
-  lcd.setCursor()
-  
+void game(int P, int B) {
+  if (P != "" && B == HIGH) {
+    punti = punti + 1;
+  }
+  else {
+    vite = vite - 1;
+  }
 }
