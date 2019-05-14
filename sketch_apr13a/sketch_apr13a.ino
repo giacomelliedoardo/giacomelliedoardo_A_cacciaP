@@ -15,17 +15,17 @@ byte Pigreco[8] = {B00000, B01100, B10011, B01010, B01010, B01010, B01010, B0101
 
 void setup() {
   // put your setup code here, to run once:
-  b00    = ;
-  b01    = ; 
-  btn1   = ;
-  btn2   = ;
-  btn3   = ;
-  btn4   = ;
-  btn5   = ;
+  b00    = 1;
+  b01    = 2;
+  btn1   = 3;
+  btn2   = 4;
+  btn3   = 5;
+  btn4   = 6;
+  btn5   = 7;
   vite   = 5;
   punti  = 0;
   record = 0;
-  
+
   pinMode(btn1, INPUT);
   pinMode(btn2, INPUT);
   pinMode(btn3, INPUT);
@@ -34,7 +34,7 @@ void setup() {
   pinMode(b00, INPUT);
   pinMode(b01, INPUT);
 
-  lcd.createChar(0, Cuore); 
+  lcd.createChar(0, Cuore);
   lcd.createChar(1, Pigreco);
 
 }
@@ -42,13 +42,10 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   inizio();
-  if (vite > 0){
-    compare();
-    game();
-    game();
-    game();
-    game();
-    game();
+  if (vite > 0) {
+    int pos = compare();
+    int premuto = assegno();
+    game(pos, premuto);
   }
   else {
     lcd.setCursor(2, 0);
@@ -59,8 +56,8 @@ void loop() {
 }
 
 void inizio() {
-  while(digitalRead(b00) != HIGH){}
-  
+  while (digitalRead(b00) != HIGH) {}
+
   lcd.setCursor(0, 0);
   lcd.write(byte(0));
   lcd.setCursor(1, 0);
@@ -71,10 +68,38 @@ void inizio() {
   lcd.print("Match: ");
   lcd.setCursor(15, 0);
   lcd.print(punti);
-  
+
 }
 
-void compare() {
+int assegno() {
+  int pos = -1;
+  for (int i = 0; i < 1500; i++) {
+    if (digitalRead(btn1) == HIGH) {
+      pos = 0;
+      break;
+    }
+    else if (digitalRead(btn2) == HIGH) {
+      pos = 4;
+      break;
+    }
+    else if (digitalRead(btn3) == HIGH) {
+      pos = 8;
+      break;
+    }
+    else if (digitalRead(btn4) == HIGH) {
+      pos = 11;
+      break;
+    }
+    else if (digitalRead(btn5) == HIGH) {
+      pos = 15;
+      break;
+    }
+    delay(1);
+  }
+  return pos;
+}
+
+int compare() {
   int rnd = random(1, 5);
   int pos = 0;
   if (rnd == 1) {
@@ -95,10 +120,11 @@ void compare() {
   delay(1000);
   lcd.setCursor(pos, 1);
   lcd.write(byte(1));
+  return pos;
 }
 
 void game(int P, int B) {
-  if (P != "" && B == HIGH) {
+  if (P == B) {
     punti = punti + 1;
   }
   else {
