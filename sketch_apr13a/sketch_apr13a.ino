@@ -8,7 +8,7 @@ int btn5;
 int b00;
 int vite;
 int punti;
-int record;
+int tempo;
 byte Cuore[8] = {B00000, B01010, B11111, B11111, B11111, B01110, B00100, B00000 };
 byte Pigreco[8] = {B00000, B01100, B10011, B01010, B01010, B01010, B01010, B01010 };
 
@@ -16,7 +16,8 @@ void setup() {
   // put your setup code here, to run once:
   lcd.init();
   lcd.backlight();
-  
+
+  tempo  = 1500;
   b00    = 2;
   btn1   = 4;
   btn2   = 6;
@@ -25,7 +26,6 @@ void setup() {
   btn5   = 12;
   vite   = 5;
   punti  = 0;
-  record = 0;
 
   pinMode(btn1, INPUT);
   pinMode(btn2, INPUT);
@@ -75,7 +75,7 @@ void inizio() {
 
 int assegno() {
   int pos = -1;
-  for (int i = 0; i < 1500; i++) {
+  for (int i = 0; i < tempo; i++) {
     if (digitalRead(btn1) == HIGH) {
       pos = 0;
       break;
@@ -129,6 +129,9 @@ int compare() {
 void game(int P, int B) {
   if (P == B) {
     punti = punti + 1;
+    if (tempo > 200) {
+    tempo = tempo - 50;
+    }
   }
   else {
     vite = vite - 1;
