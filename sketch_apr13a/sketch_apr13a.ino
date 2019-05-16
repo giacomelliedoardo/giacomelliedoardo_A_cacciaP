@@ -9,15 +9,16 @@ int b00;
 int vite;
 int punti;
 int tempo;
-byte Cuore[8] = {B00000, B01010, B11111, B11111, B11111, B01110, B00100, B00000 };
+byte Cuore[8]   = {B00000, B01010, B11111, B11111, B11111, B01110, B00100, B00000 };
 byte Pigreco[8] = {B00000, B01100, B10011, B01010, B01010, B01010, B01010, B01010 };
+byte Bomba[8]   = {B00000, B00010, B00100, B01110, B11111, B11111, B01110, B00000 };
 
 void setup() {
   // put your setup code here, to run once:
   lcd.init();
   lcd.backlight();
 
-  tempo  = 1500;
+  tempo  = 2000;
   b00    = 2;
   btn1   = 4;
   btn2   = 6;
@@ -36,6 +37,7 @@ void setup() {
 
   lcd.createChar(0, Cuore);
   lcd.createChar(1, Pigreco);
+  lcd.createChar(2, Bomba);
   lcd.setCursor(0,0);
   lcd.print("Inizia a giocare");
 
@@ -43,7 +45,8 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  vite = 5;
+  tempo = 2000;
+  vite  = 5;
   punti = 0;
   inizio();
   while (vite > 0) {
@@ -129,7 +132,7 @@ int compare() {
 void game(int P, int B) {
   if (P == B) {
     punti = punti + 1;
-    if (tempo > 200) {
+    if (tempo > 300) {
     tempo = tempo - 50;
     }
   }
