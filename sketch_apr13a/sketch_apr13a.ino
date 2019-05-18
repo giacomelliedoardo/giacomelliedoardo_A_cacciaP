@@ -51,20 +51,29 @@ void loop() {
   inizio();
   while (vite > 0) {
     int i = random(1, 11);
+    
     if (i == 1){
       int pos = compare(byte(2));
       int premuto = assegno();
-      vite  = vite - 1;
-      tempo = tempo - 150;
+      if (pos == premuto) {
+        vite  = vite - 1;
+        if (tempo > 250) {
+          tempo = tempo - 200;
+        }
+      }
       esito();
     }
+    
     else if (i == 2) {
       int pos = compare(byte(0));
       int premuto = assegno();
-      vite  = vite + 1;
-      tempo = tempo + 200;
+      if (pos == premuto) {
+        vite  = vite + 1;
+        tempo = tempo + 150;
+      }
       esito();
     }
+    
     else {
       int pos = compare(byte(1));
       int premuto = assegno();
@@ -140,7 +149,7 @@ int compare(char C) {
 void game(int P, int B) {
   if (P == B) {
     punti = punti + 1;
-    if (tempo > 300) {
+    if (tempo > 250) {
     tempo = tempo - 50;
     }
   }
