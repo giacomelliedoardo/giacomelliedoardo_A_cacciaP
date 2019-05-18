@@ -50,9 +50,26 @@ void loop() {
   punti = 0;
   inizio();
   while (vite > 0) {
-    int pos = compare();
-    int premuto = assegno();
-    game(pos, premuto);
+    int i = random(1, 11);
+    if (i == 1){
+      int pos = compare(byte(2));
+      int premuto = assegno();
+      vite  = vite - 1;
+      tempo = tempo - 150;
+      esito();
+    }
+    else if (i == 2) {
+      int pos = compare(byte(0));
+      int premuto = assegno();
+      vite  = vite + 1;
+      tempo = tempo + 200;
+      esito();
+    }
+    else {
+      int pos = compare(byte(1));
+      int premuto = assegno();
+      game(pos, premuto);
+    }
   }
     lcd.clear();
     lcd.setCursor(2, 0);
@@ -64,16 +81,7 @@ void loop() {
 void inizio() {
   while (digitalRead(b00) != HIGH) {}
   lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.write(byte(0));
-  lcd.setCursor(1, 0);
-  lcd.print(" =");
-  lcd.setCursor(4, 0);
-  lcd.print(vite);
-  lcd.setCursor(8, 0);
-  lcd.print("Punti: ");
-  lcd.setCursor(15, 0);
-  lcd.print(punti);
+  esito();
 }
 
 int assegno() {
@@ -105,7 +113,7 @@ int assegno() {
   return pos;
 }
 
-int compare() {
+int compare(char C) {
   int rnd = random(1, 6);
   int pos = 0;
   if (rnd == 1) {
@@ -125,7 +133,7 @@ int compare() {
   }
   delay(1000);
   lcd.setCursor(pos, 1);
-  lcd.write(byte(1));
+  lcd.write(C);
   return pos;
 }
 
@@ -139,6 +147,10 @@ void game(int P, int B) {
   else {
     vite = vite - 1;
   } 
+  esito();
+}
+
+void esito() {
   lcd.setCursor(0, 0);
   lcd.write(byte(0));
   lcd.setCursor(1, 0);
